@@ -1,0 +1,41 @@
+﻿<Page x:Class="DAT154Oblig4DesktopApp.NewRoomTaskPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DAT154Oblig4DesktopApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="NewRoomTaskPage"
+      Loaded="Window_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5,10,0,0">
+            <Label Content="Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0"/>
+            <DatePicker Name="taskDate" HorizontalAlignment="Left" Height="23" Margin="67,5,0,0" VerticalAlignment="Top" Width="120"/>
+
+            <Label Content="Task type:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+            <ComboBox Name="taskTypeBox" HorizontalAlignment="Left" Height="23" Margin="67,5,0,0" VerticalAlignment="Top" Width="120">
+                <ComboBoxItem>Cleaning</ComboBoxItem>
+                <ComboBoxItem>Maitenance</ComboBoxItem>
+            </ComboBox>
+
+            <Label Content="Note:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+            <TextBox Name="taskNote" HorizontalAlignment="Left" Height="23" Margin="67,5,0,0" VerticalAlignment="Top" Width="120" />
+
+            <Label Content="Room:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+            <ComboBox Name="roomBox" HorizontalAlignment="Left" Height="23" Margin="67,5,0,0" DisplayMemberPath="Number" SelectedValuePath="Id" VerticalAlignment="Top" Width="120"/>
+
+            <Label Content="Staff:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+            <ComboBox Name="userBox" HorizontalAlignment="Left" Height="23" Margin="67,5,0,0" DisplayMemberPath="Name"  SelectedValuePath="Id" VerticalAlignment="Top" Width="120"/>
+
+            <Button Content="Submit" Click="SubmitNewTask" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="Cancel" Click="OnGoToRoomPageClicked" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
+        </StackPanel>
+    </Grid>
+</Page>
