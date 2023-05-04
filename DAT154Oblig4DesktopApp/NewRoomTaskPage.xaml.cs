@@ -82,7 +82,16 @@ namespace DAT154Oblig4DesktopApp
                     dataEntities.Tasks.Add(task);
                     int changes = dataEntities.SaveChanges();
 
-                    MessageBox.Show("Added new task.");
+                    // Handling result
+                    if (changes < 1)
+                    {
+                        MessageBox.Show("Unable to add new task.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Added new task.");
+                    }
+
                     NavigationService.Navigate(new Uri("RoomPage.xaml", UriKind.Relative));
                 }
             }

@@ -112,11 +112,45 @@ namespace DAT154Oblig4DesktopApp
                         reservation.RoomId = (int)roomBox.SelectedValue;
                         reservation.CustomerId = (int)userBox.SelectedValue;
 
+                        // Checking for conflicting reservations
+
+                        var allReservationQuery =
+                            from reservations in dataEntities.Reservations
+                            orderby reservations.Id
+                            select reservations;
+
+                        List<Reservation> reservationList = allReservationQuery.ToList();
+
+                        foreach (Reservation res in reservationList)
+                        {
+                            if (res.Id != reservation.Id)
+                            {
+                                if (res.RoomId == reservation.RoomId || res.CustomerId == reservation.CustomerId)
+                                {
+                                    if (res.StartDate <= reservation.EndDate && res.EndDate >= reservation.StartDate)
+                                    {
+                                        MessageBox.Show("Unable to modify this reservation as it overlaps with an existing reservation.");
+                                        NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Updating reservation
                         dataEntities.Reservations.Update(reservation);
                         int changes = dataEntities.SaveChanges();
 
-                        MessageBox.Show("Modified reservation.");
-                        Trace.WriteLine(changes);
+                        // Handling results
+                        if (changes < 1)
+                        {
+                            MessageBox.Show("Unable to modify reservation.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Modified reservation.");
+                        }
+
                         NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
                     }
                 }

@@ -71,10 +71,42 @@ namespace DAT154Oblig4DesktopApp
                         RoomId = (int)roomBox.SelectedValue,
                         CustomerId = (int)userBox.SelectedValue
                     };
+
+                    // Checking for conflicting reservations
+
+                    var reservationQuery =
+                        from reservations in dataEntities.Reservations
+                        orderby reservations.Id
+                        select reservations;
+
+                    List<Reservation> reservationList = reservationQuery.ToList();
+
+                    foreach (Reservation res in reservationList)
+                    {
+                        if (res.RoomId == reservation.RoomId || res.CustomerId == reservation.CustomerId)
+                        {
+                            if (res.StartDate <= reservation.EndDate && res.EndDate >= reservation.StartDate)
+                            {
+                                MessageBox.Show("Unable to add this reservation as it overlaps with an existing reservation.");
+                                NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
+                                return;
+                            }
+                        }
+                    }
+
+                    // Adding new reservation
                     dataEntities.Reservations.Add(reservation);
                     int changes = dataEntities.SaveChanges();
 
-                    MessageBox.Show("Added new reservation.");
+                    // Handling result
+                    if (changes < 1)
+                    {
+                        MessageBox.Show("Unable to add new reservation.");
+                    } else
+                    {
+                        MessageBox.Show("Added new reservation.");
+                    }
+
                     NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
                 }
             }
